@@ -1,0 +1,118 @@
+users = []
+import winsound
+import time
+
+def menu():
+    time.sleep (.50)
+    winsound.Beep(1000,500)
+    print("||||||||||||| Contacts Manager v1 by: K-N |||||||||||")
+    print("")
+    print("--- Options------------------------------------------")
+    print ("Add new contact  1)")
+    print ("Show raw data    2)")
+    print ("Lookup           3)")
+    print ("exit             4)")
+       
+def options():
+    menu()
+    option = int(input("choose: "))
+    if option == 1:
+        addnew()
+        
+    elif option == 2:
+        show()
+    elif option ==3:
+        lookup()
+    elif option ==4:
+        q()
+    else:
+        print("try again")
+        options()            
+
+def save():
+    savefile = open ('data.txt','a')
+    savefile.write("\n".join (str(i) for i in users ))
+    savefile.close()
+    #options()
+    
+def startupload():
+    count = 0
+    loadin = open('data.txt', 'r')
+    for line in loadin.readlines():
+        for element in line[0:-1].split('\n'):
+            users.append(element)
+            winsound.Beep(3500,50)
+            count = count + 1
+            print(count,"Element loaded")
+            time.sleep(0.01)
+    open ('data.txt', 'w').close
+    options()
+    
+def addnew():
+    print ("Add new contact")
+    print ("---------------")
+
+    name = input ("name: ")
+    phone = input ("phone: ")
+    email = input ("email: ")
+    address = input("address: ")
+    users.append ([name, phone, email, address])
+    
+    addmore = input ("Add more? ")
+    if addmore == "yes":
+        addnew()
+    elif addmore == "no":
+        options()
+    
+def show():
+    print ("----------------------------------------------------------------")
+    for i in users:
+        print("\n",i)
+        winsound.Beep(3500,50)
+    print ("----------------------------------------------------------------")
+    print ("")
+    done = input("press a key: ")
+    options()
+
+def lookup():
+        search = input ("search: ")
+        for i in users:
+            for j in i:
+                if search in i or search in j:
+                    print (i * 1)
+                    input ("press a key to release")
+                    options()
+                    
+                
+def q():
+    done = input("exit? ")
+    if done == "yes":
+        save()
+        time.sleep(1)
+        
+        print("terminating")
+        time.sleep(0.25)
+        winsound.Beep(700,100)
+        print("|||")
+        time.sleep(0.25)
+        winsound.Beep(500,100)
+        print("   |||")
+        time.sleep(0.25)
+        winsound.Beep(300,100)
+        print("      |||")
+        time.sleep(1)
+        exit()
+    else:
+        options()
+
+try:
+    startupload()
+except FileNotFoundError:
+    print("No data file found !! ")
+    print("restarting program")
+    time.sleep(1)
+    winsound.Beep(1000,500)
+    
+    
+
+    options()
